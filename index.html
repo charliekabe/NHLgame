@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        #answer {
+            padding: 3rem;
+            background-color: Black;
+            color: black;
+        }
+
+        #answer:hover {
+            color: white;
+        }
+
+        #answer2 {
+            padding: 3rem;
+            background-color: Black;
+            color: black;
+        }
+
+        #answer2:hover {
+            color: white;
+        }
+    </style>
+
+    <title> </title>
+
+
+</head>
+
+<body>
+    <h3>Can You guess this NHL team?</h3>
+    <h2 id="question"> loading...</h2>
+    <p>To see the answer hover below.</p>
+    <p id="answer"> loading...</p>
+    <button onclick="showquestion()">Click to see the next question</button>
+    <script>
+        let api = null
+        async function loaddata() {
+            let response = await fetch("https://statsapi.web.nhl.com/api/v1/teams")
+            let data = await response.json()
+            console.log(data)
+            api = data
+            showquestion()
+            showquestion2()
+        }
+        loaddata()
+
+        function showquestion() {
+            RandomNumber = Math.floor((Math.random() * 30) + 1);
+            let team = api.teams[RandomNumber]
+            document.getElementById("question").innerText = "What team plays in " + team.locationName
+            document.getElementById("answer").innerText = "The answer was the " + team.name
+        }
+    </script>
+
+    <h3>Can You guess this NHL team's venue?</h3>
+    <h2 id="question2"> loading...</h2>
+    <p>To see the answer hover below.</p>
+    <p id="answer2"> loading...</p>
+    <button onclick="showquestion2()">Click to see the next question</button>
+
+    <script>
+
+
+        function showquestion2() {
+            RandomNumber = Math.floor((Math.random() * 30) + 1);
+            let team = api.teams[RandomNumber]
+            document.getElementById("question2").innerText = "Where does " + team.name + " play"
+            document.getElementById("answer2").innerText = "The answer was the " + team.venue.name
+        }
+    </script>
+</body>
+
+</html>
